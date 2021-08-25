@@ -54,10 +54,9 @@ if args.search:
     print()
 
 if args.ids:
-    ids = args.ids[0].split()
     playlists = dict()
     tracks = dict()
-    for id in ids:
+    for id in args.ids:
         playlist = sp.playlist(id)
         playlist['_track_set'] = {track['track']['id'] for track in playlist['tracks']['items']}
         tracks.update({track['track']['id']: track['track'] for track in playlist['tracks']['items']})

@@ -51,6 +51,6 @@ The expression used for the union was:
 * ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported*
 * Make expression writing shorter and less clunky
     * Sanitize input before running `eval()`
-    * Reserve U I D or use \\/ /\\ / , or + - * for set operations
+    * Reserve U I D or use \\/ /\\ / , or + - ^ for set operations
 * Add option to include set of tracks from albums 
 * Maybe someone can request something

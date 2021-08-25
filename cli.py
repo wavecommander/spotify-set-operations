@@ -37,7 +37,7 @@ def generate_symbol(symbol_dict, playlist, prefix=None):
 
 parser = argparse.ArgumentParser(description='Take in video parameters')
 parser.add_argument('--search', type=str, help='search query')
-parser.add_argument('--id', nargs='+', help='playlist id(s)')
+parser.add_argument('--ids', nargs='+', help='list of playlist ids')
 parser.add_argument('--name', type=str, help='name for created playlist')
 parser.add_argument('--expr', type=str, help='set operation expression')
 
@@ -53,8 +53,8 @@ if args.search:
      results['playlists']['items']]
     print()
 
-if args.id:
-    ids = args.id[0].split()
+if args.ids:
+    ids = args.ids[0].split()
     playlists = dict()
     tracks = dict()
     for id in ids:

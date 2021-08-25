@@ -41,9 +41,9 @@ parser.add_argument('--ids', nargs='+', help='list of playlist ids')
 parser.add_argument('-y', action='store_true', help='say yes to creating playlist')
 parser.add_argument('--name', type=str, help='name for created playlist')
 parser.add_argument('--expr', type=str, help='set operation expression')
-parser.add_argument('--slice-size', default=100, help='size of slices to add tracks to playlist; '
-                                                      'bigger slices are faster, but lose more songs '
-                                                      'if one ID ends up being bad')
+parser.add_argument('--slice-size', type=int, default=100, help='size of slices to add tracks to playlist; '
+                                                                'bigger slices are faster, but lose more songs '
+                                                                'if one ID ends up being bad')
 
 args = parser.parse_args()
 

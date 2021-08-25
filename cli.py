@@ -56,12 +56,16 @@ if args.search:
 if args.ids:
     playlists = dict()
     tracks = dict()
+    print(f'ARG IDS: {args.ids}')
     for id in args.ids:
         playlist = sp.playlist(id)
-        playlist['_track_set'] = {track['track']['id'] for track in playlist['tracks']['items']}
-        tracks.update({track['track']['id']: track['track'] for track in playlist['tracks']['items']})
-        playlists[playlist['id']] = playlist
-        print_playlist_contents(playlist)
+        try:
+            playlist['_track_set'] = {track['track']['id'] for track in playlist['tracks']['items']}
+            tracks.update({track['track']['id']: track['track'] for track in playlist['tracks']['items']})
+            playlists[playlist['id']] = playlist
+            print_playlist_contents(playlist)
+        except TypeError:
+            continue
 
     symbol_dict = get_playlist_symbol_dict(playlists)
     print('Enter a set operation expression to evaluate using the following symbols to represent operations and '

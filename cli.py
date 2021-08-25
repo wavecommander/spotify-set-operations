@@ -5,10 +5,12 @@ from spotipy.oauth2 import SpotifyOAuth
 
 
 def print_playlist_contents(playlist):
-        print(f'Contents of Playlist \'{playlist["name"]}\' {id}:')
-        tracks = playlist['tracks']['items']
-        [print(f'({count+1}) \'{item["track"]["name"]}\'\tArtist(s): {", ".join([artist["name"] for artist in item["track"]["artists"]])}') for count, item in enumerate(tracks)]
-        print()
+    print(f'Contents of Playlist \'{playlist["name"]}\' {id}:')
+    tracks = playlist['tracks']['items']
+    [print(f'({count + 1}) \'{item["track"]["name"]}\'\tArtist(s): '
+           f'{", ".join([artist["name"] for artist in item["track"]["artists"]])}')
+     for count, item in enumerate(tracks)]
+    print()
 
 
 def get_playlist_symbol_dict(playlists):
@@ -33,9 +35,6 @@ def generate_symbol(symbol_dict, playlist, prefix=None):
             return symbol
 
 
-def evaluate_expr(expr, symbol_dict):
-    pass
-
 parser = argparse.ArgumentParser(description='Take in video parameters')
 parser.add_argument('--search', type=str, help='search query')
 parser.add_argument('--id', nargs='+', help='playlist id(s)')
@@ -47,13 +46,12 @@ args = parser.parse_args()
 scope = "user-library-read user-library-modify playlist-modify-public"
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
-
 if args.search:
     results = sp.search(args.search, type='playlist')
     print(f'Playlist Search Results for {args.search}:')
-    [print(f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}') for item in results['playlists']['items']]
+    [print(f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}') for item in
+     results['playlists']['items']]
     print()
-
 
 if args.id:
     ids = args.id[0].split()
@@ -67,7 +65,8 @@ if args.id:
         print_playlist_contents(playlist)
 
     symbol_dict = get_playlist_symbol_dict(playlists)
-    print('Enter a set operation expression to evaluate using the following symbols to represent operations and the playlists')
+    print('Enter a set operation expression to evaluate using the following symbols to represent operations and '
+          'the playlists')
     print('Operations: A.union(B)\tA.intersection(B)\tA.difference(B)')
     print('Use parentheses to use the result of an operation in another operation')
     print('Example expression: \'((A.union(B)).difference(C)\'')
@@ -83,10 +82,12 @@ if args.id:
 
     for symbol, playlist in symbol_dict.items():
         expr = expr.replace(symbol, f'symbol_dict[\'{symbol}\']["_track_set"]')
-    
+
     new_track_set = eval(expr)
     print('Resulting Playlist Track Set:')
-    [print(f'({count+1}) \'{tracks[track]["name"]}\'\tArtist(s): {", ".join([artist["name"] for artist in tracks[track]["artists"]])}') for count, track in enumerate(new_track_set)]
+    [print(f'({count + 1}) \'{tracks[track]["name"]}\'\tArtist(s): '
+           f'{", ".join([artist["name"] for artist in tracks[track]["artists"]])}') for count, track in
+     enumerate(new_track_set)]
 
     choice = input('Create the resulting playlist? (Y/n): ')
     if choice.lower() == 'n':
@@ -107,6 +108,7 @@ if args.id:
     tracks_left = len(new_track_set) - 100
     iterations = 1
     while tracks_left > 0:
-        sp.user_playlist_add_tracks(user_id, created_playlist_id, track_list[(100*iterations):((100*iterations)+100)])
+        sp.user_playlist_add_tracks(user_id, created_playlist_id,
+                                    track_list[(100 * iterations):((100 * iterations) + 100)])
         tracks_left -= 100
         iterations += 1

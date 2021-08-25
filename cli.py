@@ -34,10 +34,10 @@ def generate_symbol(symbol_dict, playlist, prefix=None):
         else:
             return symbol
 
-
 parser = argparse.ArgumentParser(description='Take in video parameters')
 parser.add_argument('--search', type=str, help='search query')
 parser.add_argument('--ids', nargs='+', help='list of playlist ids')
+parser.add_argument('-y', action='store_true', help='say yes to creating playlist')
 parser.add_argument('--name', type=str, help='name for created playlist')
 parser.add_argument('--expr', type=str, help='set operation expression')
 
@@ -93,9 +93,10 @@ if args.ids:
      enumerate(new_track_set)]
     print()
 
-    choice = input('Create the resulting playlist? (Y/n): ')
-    if choice.lower() == 'n':
-        exit(0)
+    if not args.y:
+        choice = input('Create the resulting playlist? (Y/n): ')
+        if choice.lower() == 'n':
+            exit(0)
 
     if args.name:
         playlist_name = args.name
@@ -109,7 +110,7 @@ if args.ids:
     track_list = list(new_track_set)
     sp.user_playlist_add_tracks(user_id, created_playlist_id, track_list[:100])
 
-    tracks_left = len(new_track_set) - 100
+    tracks_left = len(track_list) - 100
     iterations = 1
     while tracks_left > 0:
         sp.user_playlist_add_tracks(user_id, created_playlist_id,

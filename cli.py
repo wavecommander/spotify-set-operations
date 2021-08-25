@@ -41,6 +41,9 @@ parser.add_argument('--ids', nargs='+', help='list of playlist ids')
 parser.add_argument('-y', action='store_true', help='say yes to creating playlist')
 parser.add_argument('--name', type=str, help='name for created playlist')
 parser.add_argument('--expr', type=str, help='set operation expression')
+parser.add_argument('--slice-size', default=100, help='size of slices to add tracks to playlist; '
+                                                      'bigger slices are faster, but lose more songs '
+                                                      'if one ID ends up being bad')
 
 args = parser.parse_args()
 
@@ -111,14 +114,21 @@ if args.ids:
     user_id = sp.me()['id']
     created_playlist_id = sp.user_playlist_create(user_id, playlist_name)['id']
 
-    # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
     track_list = list(new_track_set)
-    sp.user_playlist_add_tracks(user_id, created_playlist_id, track_list[:100])
+    ss = args.slice_size
 
-    tracks_left = len(track_list) - 100
+    # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
+    try:
+        sp.playlist_add_items(created_playlist_id, track_list[:ss])
+    except:
+        pass
+
+    tracks_left = len(track_list) - ss
     iterations = 1
     while tracks_left > 0:
-        sp.user_playlist_add_tracks(user_id, created_playlist_id,
-                                    track_list[(100 * iterations):((100 * iterations) + 100)])
-        tracks_left -= 100
+        try:
+            sp.playlist_add_items(created_playlist_id, track_list[(ss * iterations):((ss * iterations) + ss)])
+        except:
+            pass
+        tracks_left -= ss
         iterations += 1

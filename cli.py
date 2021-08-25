@@ -34,6 +34,7 @@ def generate_symbol(symbol_dict, playlist, prefix=None):
         else:
             return symbol
 
+
 parser = argparse.ArgumentParser(description='Take in video parameters')
 parser.add_argument('--search', type=str, help='search query')
 parser.add_argument('--ids', nargs='+', help='list of playlist ids')
@@ -83,8 +84,12 @@ if args.ids:
     else:
         expr = input('Expression: ')
 
-    for symbol, playlist in symbol_dict.items():
-        expr = expr.replace(symbol, f'symbol_dict[\'{symbol}\']["_track_set"]')
+    symbol_list = sorted(symbol_dict.items(), reverse=True, key=lambda item: len(item[0]))
+    index = 0
+    for symbol, playlist in symbol_list:
+        print(symbol)
+        expr = expr.replace(f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
+        index += 1
 
     new_track_set = eval(expr)
     print('Resulting Playlist Track Set:')

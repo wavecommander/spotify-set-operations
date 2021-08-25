@@ -115,6 +115,7 @@ if args.ids:
 
     track_list = list(new_track_set)
     ss = args.slice_size
+    ss = min(ss, 100)
 
     # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
     try:

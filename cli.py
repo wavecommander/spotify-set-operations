@@ -75,8 +75,8 @@ if args.ids:
           'the playlists')
     print('Operations: A.union(B)\tA.intersection(B)\tA.difference(B)')
     print('Use parentheses to use the result of an operation in another operation')
-    print('Example expression: \'((A.union(B)).difference(C)\'')
-    print('Example expression: \'(((A.intersection(B)).union(C)).intersection(D)\'')
+    print('Example expression: ((A.union(B)).difference(C)')
+    print('Example expression: (((A.intersection(B)).union(C)).intersection(D)')
     for symbol, playlist in symbol_dict.items():
         print(f'{symbol}: \'{playlist["name"]}\' {playlist["id"]}')
     print()

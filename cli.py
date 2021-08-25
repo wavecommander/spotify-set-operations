@@ -28,7 +28,7 @@ def generate_symbol(symbol_dict, playlist, prefix=None):
 
         if symbol in symbol_dict.keys():
             if letter == 'Z':
-                return generate_symbol(symbol_dict, playlist, prefix=(symbol[:-1] + 'A'))
+                return generate_symbol(symbol_dict, playlist, prefix=(symbol[:-1] + '*'))
             else:
                 continue
         else:
@@ -47,7 +47,7 @@ scope = "user-library-read user-library-modify playlist-modify-public"
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 if args.search:
-    results = sp.search(args.search, type='playlist')
+    results = sp.search(args.search, type='playlist', limit=50)
     print(f'Playlist Search Results for {args.search}:')
     [print(f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}') for item in
      results['playlists']['items']]
@@ -87,6 +87,7 @@ if args.ids:
     [print(f'({count + 1}) \'{tracks[track]["name"]}\'\tArtist(s): '
            f'{", ".join([artist["name"] for artist in tracks[track]["artists"]])}') for count, track in
      enumerate(new_track_set)]
+    print()
 
     choice = input('Create the resulting playlist? (Y/n): ')
     if choice.lower() == 'n':

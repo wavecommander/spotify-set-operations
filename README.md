@@ -14,13 +14,21 @@ export SPOTIPY_CLIENT_ID='SPOTIPY_CLIENT_ID'
 export SPOTIPY_CLIENT_SECRET='SPOTIPY_CLIENT_SECRET'
 export SPOTIPY_REDIRECT_URI='SPOTIPY_REDIRECT_URI'
 ```
-In order to obtain these credential, you must create and register a Spotify app [here](https://developer.spotify.com/dashboard/applications).
+In order to obtain these credentials you must create and register a Spotify app [here](https://developer.spotify.com/dashboard/applications).
 
 Use `python3 cli.py --search 'QUERY'` to search Spotify for playlists; the script will output the IDs in plain text.
 
 Use `python3 cli.py --ids IDS [IDS ...]` to list out the contents of the playlists with those ids and enter a Python set expression to perform set operations on the playlists. Performing a set operation will yield a new playlist on the signed-in Spotify account which you will be prompted to name.
 
 You can also use `python3 cli.py -y --ids IDS [IDS ...] --name 'NEW_PLAYLIST_NAME' --expr 'PYTHON_SET_EXPRESSION'` to bypass the prompting.
+
+
+### Examples of Set Expressions
+A Python set expression is just code that uses the supplied symbols to represent the playlists.
+
+`(A.union(B)).difference(C)` the set yielded from (A \\/ B) / C
+
+`((A.intersection(B)).union(C)).intersection(*D)` ((A /\ B) \/ C) /\ *D
 
 ## Proof of Concept
 

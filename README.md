@@ -28,9 +28,9 @@ If you want to bypass prompting, use:
 ### Examples of Set Expressions
 A Python set expression is just code that uses the supplied symbols to represent the playlists.
 
-`(A.union(B)).difference(C)` == the set yielded from (A \\/ B) / C
+`(A | B) - C` == the set yielded from (A \\/ B) / C
 
-`((A.intersection(B)).union(C)).intersection(*D)` == ((A /\ B) \/ C) /\ *D
+`((A & B) | C) & *D` == ((A /\ B) \/ C) /\ *D
 
 ## Proof of Concept
 
@@ -44,13 +44,12 @@ python3 cli.py --ids 5Expn82SHXk6SudsRcsOJr 37i9dQZF1DZ06evO0rnvDq 05lfxD2oAcMMi
 
 The expression used for the union was:
 
-`A.union(B.union(C.union(D.union(E.union(F.union(G.union(H.union(I.union(J.union(K.union(L.union(M.union(N.union(O.union(P.union(Q.union(R.union(S.union(T.union(U.union(V.union(W.union(X.union(Y.union(Z.union(*A.union(*B.union(*C.union(*D.union(*E.union(*F.union(*G.union(*H.union(*I.union(*J.union(*K.union(*L.union(*M.union(*N.union(*O.union(*P.union(*Q.union(*R.union(*S.union(*T.union(*U.union(*V.union(*W))))))))))))))))))))))))))))))))))))))))))))))))`
+`A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z | *A | *B | *C | *D | *E | *F | *G | *H | *I | *J | *K | *L | *M | *N | *O | *P | *Q | *R | *S | *T | *U | *V | *W`
 
 ## Work to Be Done
 
 * ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported*
-* Make expression writing shorter and less clunky
-    * Sanitize input before running `eval()`
-    * Reserve U I D or use \\/ /\\ / , or + - ^ for set operations
+* ~~Make expression writing shorter and less clunky~~ *Silly me realized Python set operations already support | for union, & for intersection, - for difference*
+* Sanitize input and lock down `eval()`
 * Add option to include set of tracks from albums 
 * Maybe someone can request something

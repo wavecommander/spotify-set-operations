@@ -26,7 +26,9 @@ If you want to bypass prompting, use:
 
 
 ### Examples of Set Expressions
-A Python set expression is just code that uses the supplied symbols to represent the playlists.
+A Python set expression is just code that uses the supplied symbols to represent the playlists as sets.
+
+`|` is union, `&` is intersection, `-` is difference, and `^` is symmetric difference.
 
 `(A | B) - C` == the set yielded from (A \\/ B) / C
 

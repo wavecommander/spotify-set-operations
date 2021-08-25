@@ -89,7 +89,6 @@ if args.ids:
     symbol_list = sorted(symbol_dict.items(), reverse=True, key=lambda item: len(item[0]))
     index = 0
     for symbol, playlist in symbol_list:
-        print(symbol)
         expr = expr.replace(f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
         index += 1
 

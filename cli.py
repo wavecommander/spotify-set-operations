@@ -60,7 +60,6 @@ if args.search:
 if args.ids:
     playlists = dict()
     tracks = dict()
-    print(f'ARG IDS: {args.ids}')
     for id in args.ids:
         playlist = sp.playlist(id)
         try:

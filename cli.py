@@ -46,14 +46,14 @@ def print_album_contents(album):
     print()
 
 
-def print_playlist_symbol_mapping(symbol_dict):
+def print_symbol_mapping(symbol_dict):
     print('Enter a set operation expression to evaluate using the following symbols to represent operations and '
           'the playlists')
     print('Operations: UNION: A | B\tINTERSECTION: A & B\tDIFFERENCE: A - B')
     print('Use parentheses to use the result of an operation in another operation')
     print('Example expression: (A | B) - C')
     print('Example expression: ((A & B) | C) & D')
-    print('SYMBOL TABLE:')
+    print('SYMBOL MAP:')
     [print(f'{symbol}: \'{item["name"]}\' {item["id"]}')
      for symbol, item in symbol_dict.items()]
     print()
@@ -177,7 +177,7 @@ if args.playlist_ids or args.album_ids:
                 continue
 
     symbol_dict = get_symbol_dict(playlists, albums)
-    print_playlist_symbol_mapping(symbol_dict)
+    print_symbol_mapping(symbol_dict)
 
     if args.expr:
         expr = args.expr

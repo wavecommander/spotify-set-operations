@@ -9,13 +9,8 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 def add_tracks_to_playlist(playlist_id, track_list, ss):
     # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
-    try:
-        sp.playlist_add_items(playlist_id, track_list[:ss])
-    except:
-        pass
-
-    tracks_left = len(track_list) - ss
-    iterations = 1
+    tracks_left = len(track_list)
+    iterations = 0
     while tracks_left > 0:
         try:
             sp.playlist_add_items(playlist_id, track_list[(ss * iterations):((ss * iterations) + ss)])

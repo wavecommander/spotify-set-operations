@@ -116,11 +116,26 @@ def generate_symbol(symbol_dict, prefix=None):
             return symbol
 
 
-def add_playlist_contents_to_dicts(playlist_id, playlist_dict, track_dict):
+def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict, track_dict):
+    track_set = set()
     playlist = sp.playlist(playlist_id)
-    playlist['_track_set'] = {track['track']['id'] for track in playlist['tracks']['items']}
-    track_dict.update({track['track']['id']: track['track'] for track in playlist['tracks']['items']})
     playlist_dict[playlist['id']] = playlist
+    playlist['_track_set'] = track_set
+
+    add_playlist_contents_to_dicts(playlist['tracks'], track_dict, track_set)
+
+    # Handle pagination
+    if playlist['tracks'].get('next'):
+        next_tracks = sp.next(playlist['tracks'])
+        add_playlist_contents_to_dicts(next_tracks, track_dict, track_set)
+        while next_tracks.get('next'):
+            next_tracks = sp.next(next_tracks)
+            add_playlist_contents_to_dicts(next_tracks, track_dict, track_set)
+
+
+def add_playlist_contents_to_dicts(playlist, track_dict, track_set):
+    track_set.update({track['track']['id'] for track in playlist['items']})
+    track_dict.update({track['track']['id']: track['track'] for track in playlist['items']})
 
 
 def add_album_contents_to_dicts(album_id, album_dict, track_dict):
@@ -157,8 +172,8 @@ if args.playlist_ids or args.album_ids:
     if args.playlist_ids:
         for playlist_id in args.playlist_ids:
             try:
-                add_playlist_contents_to_dicts(playlist_id, playlists, tracks)
-                print_playlist_contents(playlists[playlist_id])
+                add_paginated_playlist_contents_to_dicts(playlist_id, playlists, tracks)
+                print_playlist_contents(playlists[playlist_id], tracks)
             except TypeError:
                 continue
 

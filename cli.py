@@ -144,7 +144,7 @@ def add_album_contents_to_dicts(album_id, album_dict, track_dict):
 def eval_expr(expr, symbol_dict):
     symbol_list = sorted(symbol_dict.items(), reverse=True, key=lambda item: len(item[0]))
     index = 0
-    for symbol, playlist in symbol_list:
+    for symbol, item in symbol_list:
         expr = expr.replace(f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
         index += 1
     return eval(expr)

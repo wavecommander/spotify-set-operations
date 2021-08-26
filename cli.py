@@ -59,8 +59,8 @@ def print_playlist_symbol_mapping(symbol_dict):
     print('Example expression: (A | B) - C')
     print('Example expression: ((A & B) | C) & D')
     print('SYMBOL TABLE:')
-    [print(f'{symbol}: \'{playlist["name"]}\' {playlist["id"]}')
-     for symbol, playlist in symbol_dict.items()]
+    [print(f'{symbol}: \'{item["name"]}\' {item["id"]}')
+     for symbol, item in symbol_dict.items()]
     print()
 
 
@@ -73,7 +73,9 @@ def print_playlist_search_results(query, results):
 
 def print_album_search_results(query, results):
     print(f'Album Search Results for {query}:')
-    [print(f'\'{item["name"]}\'\tArtist(s): {", ".join([artist["name"] for artist in item["artists"]])}\tId: {item["id"]}') for item in
+    [print(
+        f'\'{item["name"]}\'\tArtist(s): {", ".join([artist["name"] for artist in item["artists"]])}\tId: {item["id"]}')
+     for item in
      results['albums']['items']]
     print()
 

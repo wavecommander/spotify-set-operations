@@ -38,7 +38,7 @@ A Python set expression is just code that uses the supplied symbols to represent
 
 ## Proof of Concept
 
-I made a [union of 50 playists that yielded a playlist with 2635 songs](https://open.spotify.com/playlist/46r7MUlc6aMRKDaQSQZGol?si=231d24f8fe0b404a).
+I made [a union of 50 playists that yielded a playlist with 2635 songs](https://open.spotify.com/playlist/46r7MUlc6aMRKDaQSQZGol?si=231d24f8fe0b404a).
 
 The command used to execute the script was:
 
@@ -52,8 +52,9 @@ The expression used for the union was:
 
 ## Work to Be Done
 
-* ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported*
+* ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported; have tested up to 150*
 * ~~Make expression writing shorter and less clunky~~ *Silly me realized Python set operations already support | for union, & for intersection, - for difference*
 * Sanitize input and lock down `eval()`
-* ~~Add option to include set of tracks from albums~~ [Mostly done](https://github.com/wavecommander/spotify-set-operations/pull/1)
+* ~~Add option to include set of tracks from albums~~ [Done](https://github.com/wavecommander/spotify-set-operations/pull/1)
+* Stop duplicates of tracks being added by hashing certain features
 * Maybe someone can request something

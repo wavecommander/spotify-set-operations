@@ -20,29 +20,23 @@ def add_tracks_to_playlist(playlist_id, track_list, ss):
         iterations += 1
 
 
-def print_enumerated_playlist_tracks(track_iterable):
-    [print(f'({count + 1}) \'{item["track"]["name"]}\'\tArtist(s): '
-           f'{", ".join([artist["name"] for artist in item["track"]["artists"]])}')
-     for count, item in enumerate(track_iterable)]
-
-
-def print_enumerated_album_tracks(track_iterable):
+def print_enumerated_tracks(track_iterable):
     [print(f'({count + 1}) \'{item["name"]}\'\tArtist(s): '
            f'{", ".join([artist["name"] for artist in item["artists"]])}')
      for count, item in enumerate(track_iterable)]
 
 
-def print_playlist_contents(playlist):
+def print_playlist_contents(playlist, track_dict):
     print(f'Contents of Playlist \'{playlist["name"]}\' {playlist["id"]}:')
-    tracks = playlist['tracks']['items']
-    print_enumerated_playlist_tracks(tracks)
+    tracks = [track_dict[track_id] for track_id in playlist['_track_set']]
+    print_enumerated_tracks(tracks)
     print()
 
 
 def print_album_contents(album):
     print(f'Contents of Album \'{album["name"]}\' {album["id"]}:')
     tracks = album['tracks']['items']
-    print_enumerated_album_tracks(tracks)
+    print_enumerated_tracks(tracks)
     print()
 
 
@@ -70,8 +64,8 @@ def print_album_search_results(query, results):
     print(f'Album Search Results for {query}:')
     [print(
         f'\'{item["name"]}\'\tArtist(s): {", ".join([artist["name"] for artist in item["artists"]])}\tId: {item["id"]}')
-     for item in
-     results['albums']['items']]
+        for item in
+        results['albums']['items']]
     print()
 
 

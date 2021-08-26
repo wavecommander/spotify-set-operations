@@ -90,8 +90,8 @@ def print_resulting_playlist(track_set, track_dict):
 
 def get_args():
     parser = argparse.ArgumentParser(description='Take in video parameters')
-    parser.add_argument('--search-playlists', type=str, help='playlist search query')
-    parser.add_argument('--search-albums', type=str, help='album search query')
+    parser.add_argument('--playlist-search', type=str, help='playlist search query')
+    parser.add_argument('--album-search', type=str, help='album search query')
     parser.add_argument('--playlist-ids', nargs='+', help='list of playlist ids')
     parser.add_argument('--album-ids', nargs='+', help='list of album ids')
     parser.add_argument('-y', action='store_true', help='say yes to creating playlist')
@@ -152,13 +152,13 @@ def eval_expr(expr, symbol_dict):
 
 args = get_args()
 
-if args.search_playlists:
-    results = sp.search(args.search_playlists, type='playlist', limit=50)
-    print_playlist_search_results(args.search_playlists, results)
+if args.playlist_search:
+    results = sp.search(args.playlist_search, type='playlist', limit=50)
+    print_playlist_search_results(args.playlist_search, results)
 
-if args.search_albums:
-    results = sp.search(args.search_albums, type='album', limit=50)
-    print_album_search_results(args.search_albums, results)
+if args.album_search:
+    results = sp.search(args.album_search, type='album', limit=50)
+    print_album_search_results(args.album_search, results)
 
 if args.playlist_ids or args.album_ids:
     playlists = dict()

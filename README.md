@@ -55,5 +55,5 @@ The expression used for the union was:
 * ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported*
 * ~~Make expression writing shorter and less clunky~~ *Silly me realized Python set operations already support | for union, & for intersection, - for difference*
 * Sanitize input and lock down `eval()`
-* Add option to include set of tracks from albums 
+* ~~Add option to include set of tracks from albums~~ [Mostly done](https://github.com/wavecommander/spotify-set-operations/pull/1)
 * Maybe someone can request something

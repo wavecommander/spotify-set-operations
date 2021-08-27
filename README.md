@@ -34,7 +34,7 @@ A Python set expression is just code that uses the supplied symbols to represent
 
 `(A | B) - C` == the set yielded from (A \\/ B) / C
 
-`((A & B) | C) & *D` == ((A /\ B) \/ C) /\ *D
+`((A & B) | C) & *D` == ((A /\ B) \\/ C) /\ *D
 
 ## Proof of Concept
 

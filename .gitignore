@@ -1,6 +1,4 @@
-.env*
-.vscode/*
-.cache
-.idea/*
+.*
 __pycache__/*
 scratch*
+test*

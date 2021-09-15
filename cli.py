@@ -25,13 +25,11 @@ def get_args():
                         help='say yes to creating playlist')
     parser.add_argument('--name', type=str, help='name for created playlist')
     parser.add_argument('--expr', type=str, help='set operation expression')
-    parser.add_argument('--slice-size', type=int, default=100, help='size of slices to add tracks to playlist; '
-                                                                    'bigger slices are faster, but lose more songs '
+    parser.add_argument('--step-size', type=int, default=100, help='size of steps to add tracks to playlist; '
+                                                                    'bigger steps are faster, but lose more songs '
                                                                     'if one ID ends up being bad')
-    parser.add_argument('--step', type=int, default=0,
-                        help='how many steps to take into super playlist')
-    parser.add_argument('--step-size', type=int, default=30,
-                        help='step size for dividing super playlist')
+    parser.add_argument('--slice-size', type=int, default=30,
+                        help='slice size for dividing super playlist')
 
     return parser.parse_args()
 
@@ -202,8 +200,8 @@ if __name__ == "__main__":
                 next_tracks = sp.next(next_tracks)
                 super_tracks.extend(next_tracks)
 
-        private_track_lists = [get_playlist_track_slice(super_playlist, i, args.step_size) for i in range(
-            math.ceil(len(super_tracks)/args.step_size))]
+        private_track_lists = [get_playlist_track_slice(super_playlist, i, args.slice_size) for i in range(
+            math.ceil(len(super_tracks)/args.slice_size))]
 
         user_id = sp.me()['id']
         for count, track_list in enumerate(private_track_lists):
@@ -247,11 +245,11 @@ if __name__ == "__main__":
         print_resulting_playlist(new_track_id_set, tracks)
 
         track_id_list = list(new_track_id_set)
-        slice_size = min(args.slice_size, 100)
+        step_size = min(args.step_size, 100)
 
         if args.public_playlist_id:
             playlist_id = args.public_playlist_id
-            replace_tracks_on_playlist(playlist_id, track_id_list, slice_size)
+            replace_tracks_on_playlist(playlist_id, track_id_list, step_size)
         else:
             if not args.y:
                 choice = input('Create the resulting playlist? (Y/n): ')
@@ -265,4 +263,4 @@ if __name__ == "__main__":
 
             user_id = sp.me()['id']
             playlist_id = sp.user_playlist_create(user_id, playlist_name)['id']
-            add_tracks_to_playlist(playlist_id, track_id_list, slice_size)
+            add_tracks_to_playlist(playlist_id, track_id_list, step_size)

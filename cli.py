@@ -79,55 +79,21 @@ def print_resulting_playlist(track_set, track_dict):
     print()
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description='Take in video parameters')
-    parser.add_argument('--playlist-search', type=str,
-                        help='playlist search query')
-    parser.add_argument('--album-search', type=str, help='album search query')
-    parser.add_argument('--playlist-ids', nargs='+',
-                        help='list of playlist ids')
-    parser.add_argument('--super-playlist-id', type=str,
-                        help='source for dividing playlist')
-    parser.add_argument('--public-playlist-id', type=str,
-                        help='destination for dividing playlist')
-    parser.add_argument('--album-ids', nargs='+', help='list of album ids')
-    parser.add_argument('-y', action='store_true',
-                        help='say yes to creating playlist')
-    parser.add_argument('--name', type=str, help='name for created playlist')
-    parser.add_argument('--expr', type=str, help='set operation expression')
-    parser.add_argument('--slice-size', type=int, default=100, help='size of slices to add tracks to playlist; '
-                                                                    'bigger slices are faster, but lose more songs '
-                                                                    'if one ID ends up being bad')
-    parser.add_argument('--step', type=int, default=0,
-                        help='how many steps to take into super playlist')
-    parser.add_argument('--step-size', type=int, default=30,
-                        help='step size for dividing super playlist')
-
-    return parser.parse_args()
-
-
 def get_symbol_dict(playlists, albums):
     symbol_dict = dict()
+    index = 0
+
     for id, playlist in playlists.items():
-        symbol_dict[generate_symbol(symbol_dict)] = playlist
+        symbol_dict[get_symbol(index)] = playlist
+        index += 1
     for id, album in albums.items():
-        symbol_dict[generate_symbol(symbol_dict)] = album
+        symbol_dict[get_symbol(index)] = album
+        index += 1
     return symbol_dict
 
 
-def generate_symbol(symbol_dict, prefix=None):
-    for letter in string.ascii_uppercase:
-        symbol = letter
-        if prefix:
-            symbol = str(prefix) + letter
-
-        if symbol in symbol_dict.keys():
-            if letter == 'Z':
-                return generate_symbol(symbol_dict, prefix=(symbol[:-1] + '*'))
-            else:
-                continue
-        else:
-            return symbol
+def get_symbol(index):
+    return f'{"*" * (index // 26)}{string.ascii_uppercase[index % 26]}'
 
 
 def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict, track_dict):

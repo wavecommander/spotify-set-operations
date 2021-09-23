@@ -1,6 +1,7 @@
 import argparse
 import string
 import math
+
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -163,12 +164,18 @@ def add_album_contents_to_dicts(album_id, album_dict, track_dict):
 def eval_expr(expr, symbol_dict):
     symbol_list = sorted(symbol_dict.items(), reverse=True,
                          key=lambda item: len(item[0]))
+
+    allowed_chars = [c for c in string.ascii_uppercase]
+    allowed_chars.extend(['(', ')', '*', '&', '|', '-', '^'])
+
+    sanitized_expr = ''.join(c for c in expr if c in allowed_chars)
+
     index = 0
     for symbol, item in symbol_list:
-        expr = expr.replace(
+        sanitized_expr = sanitized_expr.replace(
             f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
         index += 1
-    return eval(expr)
+    return eval(sanitized_expr)
 
 
 def get_playlist_track_slice(playlist, step, step_size):

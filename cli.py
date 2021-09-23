@@ -260,7 +260,7 @@ if __name__ == "__main__":
         else:
             if not args.y:
                 choice = input('Create the resulting playlist? (Y/n): ')
-                if choice.lower() == 'n':
+                if choice.lower() == 'n' or choice.lower() == 'no':
                     exit(0)
 
             if args.name:

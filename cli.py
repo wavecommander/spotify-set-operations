@@ -170,9 +170,7 @@ def eval_expr(expr, symbol_dict):
     symbol_list = sorted(symbol_dict.items(), reverse=True,
                          key=lambda item: len(item[0]))
 
-    allowed_chars = [c for c in string.ascii_uppercase]
-    allowed_chars.extend(['(', ')', '*', '&', '|', '-', '^'])
-
+    allowed_chars = set(string.ascii_uppercase) | {'(', ')', '*', '&', '|', '-', '^'}
     sanitized_expr = ''.join(c for c in expr if c in allowed_chars)
 
     index = 0

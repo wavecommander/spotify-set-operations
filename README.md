@@ -26,7 +26,7 @@ If you want to bypass prompting, use:
 
 `python3 cli.py -y --playlist-ids IDS [IDS ...] --album-ids IDS [IDS ...] --name 'NEW_PLAYLIST_NAME' --expr 'PYTHON_SET_EXPRESSION'`
 
-Sometimes errors happen; you may notice a multiple of 100 songs missing from your resulting playlist. A fix is coming. For now, you can use `--step-size N`, where N is 1 - 100, to reduce the number of songs lost in errors.
+Rarely, some track IDs will give an error when trying to add it to a playlist; recently applied a fix that will retry and minimize song loss.
 
 
 ### Examples of Set Expressions

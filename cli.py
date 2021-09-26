@@ -44,12 +44,17 @@ def add_tracks_to_playlist(playlist_id, track_id_list, ss):
     # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
     tracks_left = len(track_id_list)
     iterations = 0
+    
     while tracks_left > 0:
+        sublist = track_id_list[(ss * iterations):((ss * iterations) + ss)]
         try:
-            sp.playlist_add_items(playlist_id, track_id_list[(
-                ss * iterations):((ss * iterations) + ss)])
+            sp.playlist_add_items(playlist_id, sublist)
         except:
-            pass
+            for track_id in sublist:
+                try:
+                    sp.playlist_add_items(playlist_id, [track_id])
+                except:
+                    pass
         tracks_left -= ss
         iterations += 1
 

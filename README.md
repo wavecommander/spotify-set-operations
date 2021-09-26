@@ -3,7 +3,9 @@
 Little CLI tool to apply set operations to Spotify playlists and create the resulting playlists
 
 ## WARNING
-This script runs unsanitized strings as Python code with `eval()`; I am not responsible if you rm your only copy of your favorite family recipe.
+This script uses `eval()` to perform the set operations. Inputs are sanitized and the scope is restricted.
+
+I am not responsible if you rm your only copy of your favorite family recipe.
 
 ## Usage
 
@@ -16,15 +18,15 @@ export SPOTIPY_REDIRECT_URI='SPOTIPY_REDIRECT_URI'
 ```
 In order to obtain these credentials you must create and register a Spotify app [here](https://developer.spotify.com/dashboard/applications).
 
-Use `python3 cli.py --playlist-search 'QUERY'` to search Spotify for playlists; the script will output the IDs in plain text.
-
-Use `python3 cli.py --album-search 'QUERY'` to search Spotify for albums; the script will output the IDs in plain text.
+Use `python3 cli.py --playlist-search 'QUERY' AND/OR --album-search 'QUERY'` to search Spotify for playlists AND/OR albums; the script will output the IDs in plain text.
 
 Use `python3 cli.py --playlist-ids IDS [IDS ...] AND/OR --album-ids IDS [IDS ...]` to list out the contents of the playlists with those ids and enter a Python set expression to perform set operations on the playlists. Performing a set operation will yield a new playlist on the signed-in Spotify account which you will be prompted to name.
 
 If you want to bypass prompting, use:
 
 `python3 cli.py -y --playlist-ids IDS [IDS ...] --album-ids IDS [IDS ...] --name 'NEW_PLAYLIST_NAME' --expr 'PYTHON_SET_EXPRESSION'`
+
+Sometimes errors happen; you may notice a multiple of 100 songs missing from your resulting playlist. A fix is coming. For now, you can use `--step-size N`, where N is 1 - 100, to reduce the number of songs lost in errors.
 
 
 ### Examples of Set Expressions
@@ -58,6 +60,6 @@ To be clear, making MEGA playlists is not the only thing possible with this scri
 * ~~Make expression writing shorter and less clunky~~ *Silly me realized Python set operations already support | for union, & for intersection, - for difference*
 * ~~Add option to include set of tracks from albums~~ [Done](https://github.com/wavecommander/spotify-set-operations/pull/1)
 * ~~Add support for pagination so more than the first 100 songs are used~~
-* Sanitize input and lock down `eval()`
-* Stop duplicates of tracks being added by hashing certain features
+* ~~Sanitize input and lock down `eval()`~~ *Considerably more safe now*
+* Stop duplicates of tracks being added by hashing certain features - *Experiment failed*
 * Maybe someone can request something

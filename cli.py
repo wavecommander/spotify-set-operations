@@ -175,7 +175,7 @@ def eval_expr(expr, symbol_dict):
         sanitized_expr = sanitized_expr.replace(
             f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
         index += 1
-    return eval(sanitized_expr)
+    return eval(sanitized_expr, {'__builtins__': None}, {'symbol_dict': symbol_dict, 'symbol_list': symbol_list})
 
 
 def get_playlist_track_slice(playlist, step, step_size):

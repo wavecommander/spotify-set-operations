@@ -11,25 +11,36 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 def get_args():
     parser = argparse.ArgumentParser(
-        description='Parameters for interacting with Spotify Playlists and Albums')
-    parser.add_argument('--playlist-search', type=str,
+        description=
+        'Parameters for interacting with Spotify Playlists and Albums')
+    parser.add_argument('--playlist-search',
+                        type=str,
                         help='playlist search query')
     parser.add_argument('--album-search', type=str, help='album search query')
-    parser.add_argument('--playlist-ids', nargs='+',
+    parser.add_argument('--playlist-ids',
+                        nargs='+',
                         help='list of playlist ids')
-    parser.add_argument('--super-playlist-id', type=str,
+    parser.add_argument('--super-playlist-id',
+                        type=str,
                         help='source for dividing playlist')
-    parser.add_argument('--public-playlist-id', type=str,
+    parser.add_argument('--public-playlist-id',
+                        type=str,
                         help='destination for dividing playlist')
     parser.add_argument('--album-ids', nargs='+', help='list of album ids')
-    parser.add_argument('-y', action='store_true',
+    parser.add_argument('-y',
+                        action='store_true',
                         help='say yes to creating playlist')
     parser.add_argument('--name', type=str, help='name for created playlist')
     parser.add_argument('--expr', type=str, help='set operation expression')
-    parser.add_argument('--step-size', type=int, default=100, help='size of steps to add tracks to playlist; '
-                                                                    'bigger steps are faster, but lose more songs '
-                                                                    'if one ID ends up being bad')
-    parser.add_argument('--slice-size', type=int, default=30,
+    parser.add_argument('--step-size',
+                        type=int,
+                        default=100,
+                        help='size of steps to add tracks to playlist; '
+                        'bigger steps are faster, but lose more songs '
+                        'if one ID ends up being bad')
+    parser.add_argument('--slice-size',
+                        type=int,
+                        default=30,
                         help='slice size for dividing super playlist')
 
     return parser.parse_args()
@@ -44,7 +55,7 @@ def add_tracks_to_playlist(playlist_id, track_id_list, ss):
     # Spotify caps adding 100 tracks at a time; workaround by iterating through slices
     tracks_left = len(track_id_list)
     iterations = 0
-    
+
     while tracks_left > 0:
         sublist = track_id_list[(ss * iterations):((ss * iterations) + ss)]
         try:
@@ -62,7 +73,8 @@ def add_tracks_to_playlist(playlist_id, track_id_list, ss):
 def print_enumerated_tracks(track_iterable):
     for count, item in enumerate(track_iterable):
         print(
-            f'({count + 1}) \'{item["name"]}\'\t{generate_artist_string(item["artists"])}')
+            f'({count + 1}) \'{item["name"]}\'\t{generate_artist_string(item["artists"])}'
+        )
 
 
 def generate_artist_string(artists):
@@ -84,10 +96,14 @@ def print_album_contents(album):
 
 
 def print_symbol_mapping(symbol_dict):
-    print('Enter a set operation expression to evaluate using the following symbols to represent operations and '
-          'the playlists')
+    print(
+        'Enter a set operation expression to evaluate using '
+        'the following symbols to represent operations and '
+        'the playlists')
     print('Operations: UNION: A | B\tINTERSECTION: A & B\tDIFFERENCE: A - B')
-    print('Use parentheses to use the result of an operation in another operation')
+    print(
+        'Use parentheses to use the result of an operation in another operation'
+    )
     print('Example expression: (A | B) - C')
     print('Example expression: ((A & B) | C) & D')
     print('SYMBOL MAP:')
@@ -100,7 +116,8 @@ def print_playlist_search_results(query, results):
     print(f'Playlist Search Results for {query}:')
     for item in results['playlists']['items']:
         print(
-            f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}')
+            f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}'
+        )
     print()
 
 
@@ -108,7 +125,8 @@ def print_album_search_results(query, results):
     print(f'Album Search Results for {query}:')
     for item in results['albums']['items']:
         print(
-            f'\'{item["name"]}\'\t{generate_artist_string(item["artists"])}\tId: {item["id"]}')
+            f'\'{item["name"]}\'\t{generate_artist_string(item["artists"])}\tId: {item["id"]}'
+        )
     print()
 
 
@@ -135,7 +153,8 @@ def get_symbol(index):
     return f'{"*" * (index // 26)}{string.ascii_uppercase[index % 26]}'
 
 
-def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict, track_dict):
+def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict,
+                                             track_dict):
     track_set = set()
     playlist = sp.playlist(playlist_id)
     playlist_dict[playlist['id']] = playlist
@@ -154,23 +173,27 @@ def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict, track_d
 
 def add_playlist_contents_to_dicts(playlist, track_dict, track_set):
     track_set.update({track['track']['id'] for track in playlist['items']})
-    track_dict.update({track['track']['id']: track['track']
-                      for track in playlist['items']})
+    track_dict.update(
+        {track['track']['id']: track['track']
+         for track in playlist['items']})
 
 
 def add_album_contents_to_dicts(album_id, album_dict, track_dict):
     album = sp.album(album_id)
     album['_track_set'] = {track['id'] for track in album['tracks']['items']}
     track_dict.update(
-        {track['id']: track for track in album['tracks']['items']})
+        {track['id']: track
+         for track in album['tracks']['items']})
     album_dict[album['id']] = album
 
 
 def eval_expr(expr, symbol_dict):
-    symbol_list = sorted(symbol_dict.items(), reverse=True,
+    symbol_list = sorted(symbol_dict.items(),
+                         reverse=True,
                          key=lambda item: len(item[0]))
 
-    allowed_chars = set(string.ascii_uppercase) | {'(', ')', '*', '&', '|', '-', '^'}
+    allowed_chars = set(
+        string.ascii_uppercase) | {'(', ')', '*', '&', '|', '-', '^'}
     sanitized_expr = ''.join(c for c in expr if c in allowed_chars)
 
     index = 0
@@ -178,7 +201,10 @@ def eval_expr(expr, symbol_dict):
         sanitized_expr = sanitized_expr.replace(
             f'{symbol}', f'symbol_dict[symbol_list[{index}][0]]["_track_set"]')
         index += 1
-    return eval(sanitized_expr, {'__builtins__': None}, {'symbol_dict': symbol_dict, 'symbol_list': symbol_list})
+    return eval(sanitized_expr, {'__builtins__': None}, {
+        'symbol_dict': symbol_dict,
+        'symbol_list': symbol_list
+    })
 
 
 def get_playlist_track_slice(playlist, step, step_size):
@@ -210,16 +236,21 @@ if __name__ == "__main__":
                 next_tracks = sp.next(next_tracks)
                 super_tracks.extend(next_tracks)
 
-        private_track_lists = [get_playlist_track_slice(super_playlist, i, args.slice_size) for i in range(
-            math.ceil(len(super_tracks)/args.slice_size))]
+        private_track_lists = [
+            get_playlist_track_slice(super_playlist, i, args.slice_size)
+            for i in range(math.ceil(len(super_tracks) / args.slice_size))
+        ]
 
         user_id = sp.me()['id']
         for count, track_list in enumerate(private_track_lists):
             track_id_list = [track['track']['id'] for track in track_list]
             name = f'{super_playlist["name"].replace(" ", "-")}-sub-{count + 1}'
-            created_playlist_id = sp.user_playlist_create(
-                user_id, name, public=False)['id']
-            print(f'Created sub playlist\tName: {name}\tId:{created_playlist_id}')
+            created_playlist_id = sp.user_playlist_create(user_id,
+                                                          name,
+                                                          public=False)['id']
+            print(
+                f'Created sub playlist\tName: {name}\tId:{created_playlist_id}'
+            )
             add_tracks_to_playlist(created_playlist_id, track_id_list, 100)
 
     if args.playlist_ids or args.album_ids:

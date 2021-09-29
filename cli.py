@@ -36,8 +36,8 @@ def get_args():
                         type=int,
                         default=100,
                         help='size of steps to add tracks to playlist; '
-                        'bigger steps are faster, but lose more songs '
-                        'if one ID ends up being bad')
+                             'bigger steps are faster, but lose more songs '
+                             'if one ID ends up being bad')
     parser.add_argument('--slice-size',
                         type=int,
                         default=30,
@@ -73,7 +73,8 @@ def add_tracks_to_playlist(playlist_id, track_id_list, ss):
 def print_enumerated_tracks(track_iterable):
     for count, item in enumerate(track_iterable):
         print(
-            f'({count + 1}) \'{item["name"]}\'\t{generate_artist_string(item["artists"])}'
+            f'({count + 1}) \'{item["name"]}\'\t'
+            f'{generate_artist_string(item["artists"])}'
         )
 
 
@@ -116,7 +117,8 @@ def print_playlist_search_results(query, results):
     print(f'Playlist Search Results for {query}:')
     for item in results['playlists']['items']:
         print(
-            f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\tId: {item["id"]}'
+            f'\'{item["name"]}\'\tOwner: {item["owner"]["display_name"]}\t'
+            f'Id: {item["id"]}'
         )
     print()
 
@@ -125,7 +127,8 @@ def print_album_search_results(query, results):
     print(f'Album Search Results for {query}:')
     for item in results['albums']['items']:
         print(
-            f'\'{item["name"]}\'\t{generate_artist_string(item["artists"])}\tId: {item["id"]}'
+            f'\'{item["name"]}\'\t{generate_artist_string(item["artists"])}\t'
+            f'Id: {item["id"]}'
         )
     print()
 

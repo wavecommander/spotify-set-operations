@@ -9,10 +9,10 @@ class AuthService extends ChangeNotifier {
   String? _spotifyAccessToken;
   String? _ytmusicAccessToken;
 
-  String spotifyClientId = '0123456789abcdef0123456789abcdef';
+  String spotifyClientId = '88962541e5e34523861008cd3c75a285';
   String ytmusicClientId = 'ytmusic-client-id.apps.googleusercontent.com';
 
-  static const String redirectUri = 'http://localhost:8888/callback';
+  static const String redirectUri = 'http://127.0.0.1:8888/callback';
 
   bool get isSpotifyConnected => _spotifyAccessToken != null;
   bool get isYTMusicConnected => _ytmusicAccessToken != null;

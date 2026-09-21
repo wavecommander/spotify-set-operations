@@ -143,10 +143,10 @@ def get_symbol_dict(playlists, albums):
     symbol_dict = dict()
     index = 0
 
-    for id, playlist in playlists.items():
+    for playlist_id, playlist in playlists.items():
         symbol_dict[get_symbol(index)] = playlist
         index += 1
-    for id, album in albums.items():
+    for album_id, album in albums.items():
         symbol_dict[get_symbol(index)] = album
         index += 1
     return symbol_dict

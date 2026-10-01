@@ -156,6 +156,14 @@ def get_symbol(index):
     return f'{"*" * (index // 26)}{string.ascii_uppercase[index % 26]}'
 
 
+def get_all_pages(first_page):
+    current_page = first_page
+    yield current_page
+    while current_page.get('next'):
+        current_page = sp.next(current_page)
+        yield current_page
+
+
 def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict,
                                              track_dict):
     track_set = set()
@@ -163,15 +171,8 @@ def add_paginated_playlist_contents_to_dicts(playlist_id, playlist_dict,
     playlist_dict[playlist['id']] = playlist
     playlist['_track_set'] = track_set
 
-    add_playlist_contents_to_dicts(playlist['tracks'], track_dict, track_set)
-
-    # Handle pagination
-    if playlist['tracks'].get('next'):
-        next_tracks = sp.next(playlist['tracks'])
-        add_playlist_contents_to_dicts(next_tracks, track_dict, track_set)
-        while next_tracks.get('next'):
-            next_tracks = sp.next(next_tracks)
-            add_playlist_contents_to_dicts(next_tracks, track_dict, track_set)
+    for page in get_all_pages(playlist['tracks']):
+        add_playlist_contents_to_dicts(page, track_dict, track_set)
 
 
 def add_playlist_contents_to_dicts(playlist, track_dict, track_set):
@@ -231,13 +232,9 @@ if __name__ == "__main__":
     if args.super_playlist_id:
         super_playlist = sp.playlist(args.super_playlist_id)
 
-        super_tracks = super_playlist['tracks']['items']
-        if super_playlist['tracks'].get('next'):
-            next_tracks = sp.next(super_playlist['tracks'])
-            super_tracks.extend(next_tracks)
-            while next_tracks.get('next'):
-                next_tracks = sp.next(next_tracks)
-                super_tracks.extend(next_tracks)
+        super_tracks = []
+        for page in get_all_pages(super_playlist['tracks']):
+            super_tracks.extend(page['items'])
 
         private_track_lists = [
             get_playlist_track_slice(super_playlist, i, args.slice_size)

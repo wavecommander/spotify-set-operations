@@ -256,7 +256,7 @@ export class SsoHeader extends HTMLElement {
             ${SvgIcons.vennUnion(32, '#1DB954')}
           </div>
           <div class="brand-title">
-            Music Set Operations
+            Music Sets
             <span class="brand-badge">by <a href="https://tactile.software">tactile.software</a></span>
           </div>
         </div>

@@ -431,7 +431,7 @@ export class SsoExportModal extends HTMLElement {
 
             <div class="form-group">
               <label for="playlist-desc">Description</label>
-              <textarea id="playlist-desc" rows="2" placeholder="Generated with Music Set Operations, by Tactile Software" ${this.isExporting ? 'disabled' : ''}></textarea>
+              <textarea id="playlist-desc" rows="2" placeholder="Generated with Music Sets, by Tactile Software" ${this.isExporting ? 'disabled' : ''}></textarea>
             </div>
 
             <div class="form-group">

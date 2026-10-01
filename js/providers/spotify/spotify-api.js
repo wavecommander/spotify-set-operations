@@ -381,8 +381,8 @@ export class SpotifyApi {
   async createPlaylist({ name, description = '', isPublic = false, tracks, onProgress }) {
     let created;
     const body = JSON.stringify({
-      name: name || 'Music Set Operations Playlist',
-      description: description || 'Generated with Music Set Operations, by Tactile Software',
+      name: name || 'Music Sets Playlist',
+      description: description || 'Generated with Music Sets, by Tactile Software',
       public: isPublic,
     });
 

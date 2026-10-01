@@ -1,5 +1,5 @@
 /**
- * Service Worker for Music Set Operations PWA
+ * Service Worker for Music Sets PWA
  * Caches shell assets for fast loading and offline presentation.
  */
 

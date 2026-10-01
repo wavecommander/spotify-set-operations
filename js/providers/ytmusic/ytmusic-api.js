@@ -457,7 +457,7 @@ export class YTMusicApi {
    */
   async createPlaylist({ name, description = '', isPublic = false, tracks = [], onProgress }) {
     const playlistTitle = name || 'Set Operations Playlist';
-    const playlistDesc = description || 'Generated with Music Set Operations, by Tactile Software';
+    const playlistDesc = description || 'Generated with Music Sets, by Tactile Software';
     const privacyStatus = isPublic ? 'public' : 'private';
 
     const body = JSON.stringify({

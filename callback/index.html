@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spotify Authentication Callback | Music Set Operations</title>
+  <title>Spotify Authentication Callback | Music Sets</title>
   <style>
     body {
       background-color: #121212;
@@ -116,7 +116,7 @@
         if (success) {
           Storage.set('sso_active_provider_id', isYouTube ? 'ytmusic' : 'spotify');
           title.textContent = 'Connected Successfully!';
-          statusText.textContent = 'Redirecting back to Music Set Operations...';
+          statusText.textContent = 'Redirecting back to Music Sets...';
           setTimeout(() => {
             window.location.href = '../';
           }, 600);

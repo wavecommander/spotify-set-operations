@@ -1,5 +1,5 @@
 {
-  "name": "Music Set Operations",
+  "name": "Music Sets",
   "short_name": "SetOperations",
   "description": "GUI for performing Venn diagram set operations on music playlists and albums",
   "start_url": "./index.html",

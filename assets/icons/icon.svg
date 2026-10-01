@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#121212"/>
+  <rect x="16" y="16" width="480" height="480" rx="96" stroke="#242424" stroke-width="4"/>
+  
+  <defs>
+    <mask id="venn-mask">
+      <rect width="512" height="512" fill="black" />
+      <circle cx="206" cy="256" r="140" fill="white" />
+      <circle cx="306" cy="256" r="140" fill="white" />
+    </mask>
+    <linearGradient id="venn-grad" x1="66" y1="116" x2="446" y2="396" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1DB954"/>
+      <stop offset="1" stop-color="#1ED760"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Circles outlines -->
+  <circle cx="206" cy="256" r="140" stroke="#1DB954" stroke-width="12" fill="none" opacity="0.3"/>
+  <circle cx="306" cy="256" r="140" stroke="#1DB954" stroke-width="12" fill="none" opacity="0.3"/>
+
+  <!-- Union Body -->
+  <rect width="512" height="512" fill="url(#venn-grad)" mask="url(#venn-mask)" fill-opacity="0.9" />
+
+  <!-- Overlap stroke -->
+  <circle cx="206" cy="256" r="140" stroke="#121212" stroke-width="6" fill="none" />
+  <circle cx="306" cy="256" r="140" stroke="#121212" stroke-width="6" fill="none" />
+</svg>

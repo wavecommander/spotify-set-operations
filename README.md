@@ -1,65 +1,141 @@
 # spotify-set-operations
 
-Little CLI tool to apply set operations to Spotify playlists and create the resulting playlists
+Apply mathematical set operations (Union, Intersection, Difference, Symmetric Difference) to Spotify playlists and albums to create new curated playlists.
 
-## WARNING
-This script uses `eval()` to perform the set operations. Inputs are sanitized and the scope is restricted.
+Available as both a **modern graphical standalone PWA** (Web Components & ES Modules) and a **Python CLI tool**.
 
-I am not responsible if you rm your only copy of your favorite family recipe.
+---
 
-## Usage
+## 🚀 Graphical Web App (PWA)
 
-You must make some environment variables available to the script:
+The web app is a standalone, client-side Progressive Web App built with native **JavaScript ES Modules** and **Web Components (Custom Elements & Shadow DOM)**.
 
-```shell
-export SPOTIPY_CLIENT_ID='SPOTIPY_CLIENT_ID'
-export SPOTIPY_CLIENT_SECRET='SPOTIPY_CLIENT_SECRET'
-export SPOTIPY_REDIRECT_URI='SPOTIPY_REDIRECT_URI'
-```
-In order to obtain these credentials you must create and register a Spotify app [here](https://developer.spotify.com/dashboard/applications).
+### Features
+* **100% Graphical Operation Pipeline**: No cryptic mathematical syntax or symbol tables. Work directly with real playlist and album names, cover art, and metadata on the presentation layer.
+* **Venn Diagram Operation Symbols**: Intuitive visual buttons representing operations:
+  * **Union ($\cup$)**: Both circles filled — *Combine all tracks*
+  * **Intersection ($\cap$)**: Center lens filled — *Only tracks shared in both*
+  * **Difference ($\setminus$)**: Left circle filled — *Subtract tracks in second collection from first*
+  * **Symmetric Difference ($\Delta$)**: Outer lobes filled — *Only tracks unique to either collection*
+* **Dynamic SVG Venn Visualizer**: Interactive two-way Venn diagram displaying live track counts in each partition ($A \setminus B$, $A \cap B$, $B \setminus A$). Click any partition to filter the preview table!
+### Features
+* **100% Graphical Operation Pipeline**: No cryptic mathematical syntax or symbol tables. Work directly with real playlist and album names, cover art, and metadata on the presentation layer.
+* **Venn Diagram Operation Symbols**: Intuitive visual buttons representing operations:
+  * **Union ($\cup$)**: Both circles filled — *Combine all tracks*
+  * **Intersection ($\cap$)**: Center lens filled — *Only tracks shared in both*
+  * **Difference ($\setminus$)**: Left circle filled — *Subtract tracks in second collection from first*
+  * **Symmetric Difference ($\Delta$)**: Outer lobes filled — *Only tracks unique to either collection*
+* **Dynamic SVG Venn Visualizer**: Interactive multi-step Venn diagrams displaying live track counts in each partition ($A \setminus B$, $A \cap B$, $B \setminus A$). Click any partition to filter the preview table!
+* **Cross-Platform Track Resolution & Deduplication**:
+  * Normalize and deduplicate songs across **Spotify** and **YouTube Music** using canonical identity keys (`isrc:...` or `meta:title::artist`).
+  * Cross-platform export engine automatically resolves tracks between Spotify and YouTube Music with duration validation ($\pm 15$s tolerance) and persistent caching.
+* **Pluggable Architecture**: Built on a decoupled `MusicProvider` contract, with full support for:
+  * **Spotify** (OAuth 2.0 PKCE)
+  * **YouTube Music** (Google OAuth 2.0 PKCE + Client Secret & YouTube Data API v3)
+* **Pure Client-Side PWA**: Zero build step required, offline caching via Service Worker (`sw.js`), and installable on desktop and mobile.
 
-Use `python3 cli.py --playlist-search 'QUERY' AND/OR --album-search 'QUERY'` to search Spotify for playlists AND/OR albums; the script will output the IDs in plain text.
+### Running the Web App Locally
 
-Use `python3 cli.py --playlist-ids IDS [IDS ...] AND/OR --album-ids IDS [IDS ...]` to list out the contents of the playlists with those ids and enter a Python set expression to perform set operations on the playlists. Performing a set operation will yield a new playlist on the signed-in Spotify account which you will be prompted to name.
-
-If you want to bypass prompting, use:
-
-`python3 cli.py -y --playlist-ids IDS [IDS ...] --album-ids IDS [IDS ...] --name 'NEW_PLAYLIST_NAME' --expr 'PYTHON_SET_EXPRESSION'`
-
-Rarely, some track IDs will give an error when trying to add it to a playlist; recently applied a fix that will retry and minimize song loss.
-
-
-### Examples of Set Expressions
-A Python set expression is just code that uses the supplied symbols to represent the playlists as sets.
-
-`|` is union, `&` is intersection, `-` is difference, and `^` is symmetric difference.
-
-`(A | B) - C` == the set yielded from (A \\/ B) / C
-
-`((A & B) | C) & *D` == ((A /\ B) \\/ C) /\ *D
-
-## Proof of Concept
-
-I made [a union of 51 playists that yielded a playlist with 11000 songs (the maximum)](https://open.spotify.com/playlist/6sRQJW3gwK0DwfSAhEzQHl?si=ab671f46bb064786).
-
-The command used to execute the script was:
+You can run the web app with any static HTTP server:
 
 ```shell
-python3 cli.py --playlist-ids 1qVaRy6kQoZkkyIHFPfJsW 2REb6YDnp5qH9IIkMza580 5NenbL246rNAKGH9lXiixc 4iMdrHrW1OmyZLV8BPUEbu 3lfT5ZcbarQ8ZI71RDWy5u 3uXtYhHfORolbG302MPW8M 1lZDftlmPVvMpRLzGLZwjP 5tYo5VbfokbyldiJuwYVvg 4SK3HGc8kZDq72obfdGFNb 37i9dQZF1DX7V3MgTiyyqp 53bg3syDf3kQmPxYN2W07m 4c6hjPFAuIYorSnqZIANaP 2veco7i495KgJ0kWLpQTRr 0iF6oZYeZXeI86XJ5u2BbR 0vy7nuJMzzUAMV0XOYB9T7 75sFI9pXWjTCVI8ezrFBkI 3NeDoPKICiFlaoecUA1hvw 1WdpcUueUepQhAqwCOWVW4 6mFqEOuVk7rbCLXEHjquUG 7CvBRkwlMSrpxzyxKKFIbY 5PjTu6gIFm2SRhRwrZgvhs 3tGy4KkuOX05teizHXxyiL 7tsQViZ1CZtb0CNAmCAwhS 0kx3IPyILYiw5ggWyTyznv 5tWnGRENJmbsav0rNGQN2J 7lGJYWJmG29HjJpHnn3NnP 7udDg9WQJQLQilueQvrOMS 5K4WAJZFfNZrZMf5JgBsAa 5lYx6BZaKpVGM1TYb0d9Jq 69zTxDN28ee5R6tztahjW5 7dW5AGPPBJoceQRejPy84T 36qzJnK6OoUtoRvjgmiNfu 7sZe1uegJ3AQHWsumBDZt3 3FPvvx5mfjD8etnqs7DrMU 77wFrWOVpo597nRxz673TL 6PAZXARur6K049GCwlng5c 67s7BnOu9czd8ingJrkYW1 0O4c3oOYHC970Ln8AzVLxE 3Dai7NQxzUOlaLkfZrQt6v 0anRZkVCcd2rvFBlONSGQH 3t0P8jk5cZ6pUdbQyGqxq1 3mdcJmw8olQPlkHaG6BhUw 4zMvVnx8oKt0sJtXP09Y3F 5vTMFOquz2z7PE3FIjXrAf 4SvyIPxYuBNx3Grv3cRpMM 2tGp2L72CmagpK2tYsMq62 2TiMXwLqtqUilyj4BpWX6U 4sNUf3Z3fFwqp06g4zeetE 75EoA9fDFF259csoelzK3a 6PraGaEghR4e5O23GvtGR3 0u6DT2C8tUaqCxgAbHVWvw
+# Using Node (npm start)
+npm start
+
+# Or using Python's built-in HTTP server
+python3 -m http.server 3000
+```
+Then open [http://localhost:3000](http://localhost:3000) (or [http://127.0.0.1:8888](http://127.0.0.1:8888)) in your browser.
+
+To run the automated test suite:
+```shell
+npm test
 ```
 
-The expression used for the union was:
+### Spotify & YouTube Music Setup
 
-`A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z | *A | *B | *C | *D | *E | *F | *G | *H | *I | *J | *K | *L | *M | *N | *O | *P | *Q | *R | *S | *T | *U | *V | *W | *X | *Y`
+Click the **Settings** gear icon in the top right to configure your developer credentials:
 
-To be clear, making MEGA playlists is not the only thing possible with this script; you can subtract the tracks from individual albums from playlists and do further set operations on the result as well.
+#### 1. Spotify
+- Uses OAuth 2.0 with PKCE directly from the browser.
+- Configure your **Client ID** and **Redirect URI** (e.g. `http://127.0.0.1:8888/callback`).
+- Make sure your redirect URI is added to your app's Redirect URIs in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
 
-## Work to Be Done
+#### 2. YouTube Music
+- Uses Google OAuth 2.0 with PKCE.
+- Configure your **Google Client ID**, **Client Secret** (required by Google for Web Application credentials), and **Redirect URI** in the YouTube Music settings tab.
+- Enable the **YouTube Data API v3** in your [Google Cloud Console](https://console.cloud.google.com/apis/library/youtube.googleapis.com).
+- Add your redirect URI to **Authorized redirect URIs** in your Google Cloud OAuth 2.0 Client.
+- Works with all free and premium YouTube Music accounts!
 
-* ~~Need to expand capability past 26 playlists by including more symbols, or a different mapping strategy altogether (probably the latter)~~ *Symbols for arbitrarily many playlists are now supported; have tested up to 150*
-* ~~Make expression writing shorter and less clunky~~ *Silly me realized Python set operations already support | for union, & for intersection, - for difference*
-* ~~Add option to include set of tracks from albums~~ [Done](https://github.com/wavecommander/spotify-set-operations/pull/1)
-* ~~Add support for pagination so more than the first 100 songs are used~~
-* ~~Sanitize input and lock down `eval()`~~ *Considerably more safe now*
-* Stop duplicates of tracks being added by hashing certain features - *Experiment failed*
-* Maybe someone can request something
+---
+
+## 💻 Python CLI Tool
+
+The repository also includes the original command-line script in [cli.py](file:///home/benw/dev/spotify-set-operations/cli.py).
+
+### Usage
+
+Export your Spotify credentials as environment variables:
+
+```shell
+export SPOTIPY_CLIENT_ID='YOUR_CLIENT_ID'
+export SPOTIPY_CLIENT_SECRET='YOUR_CLIENT_SECRET'
+export SPOTIPY_REDIRECT_URI='YOUR_REDIRECT_URI'
+```
+
+Search for playlists and albums:
+```shell
+python3 cli.py --playlist-search 'QUERY'
+python3 cli.py --album-search 'QUERY'
+```
+
+Run set operations interactively or non-interactively:
+```shell
+# Interactive
+python3 cli.py --playlist-ids ID1 ID2 --album-ids ALBUM_ID
+
+# Scripted non-interactive
+python3 cli.py -y --playlist-ids ID1 ID2 --name 'My Playlist' --expr 'A | B'
+```
+
+### Proof of Concept
+A union of 51 playlists that yielded a playlist with 11,000 songs:
+```shell
+python3 cli.py --playlist-ids 1qVaRy6kQoZkkyIHFPfJsW 2REb6YDnp5qH9IIkMza580 ...
+```
+Expression:
+`A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z | *A | *B | ...`
+
+---
+
+## 🛠 Project Structure
+
+```
+spotify-set-operations/
+├── index.html                      # PWA entry point
+├── manifest.webmanifest            # Standalone PWA manifest
+├── sw.js                           # Service worker for offline shell caching
+├── package.json                    # Scripts and project metadata
+├── css/
+│   ├── theme.css                   # Dark theme design tokens
+│   ├── main.css                    # Base layout, typography, and reset
+│   └── venn.css                    # Venn diagrams and graphical pipeline styles
+├── js/
+│   ├── app.js                      # Bootstrap & service worker registration
+│   ├── core/
+│   │   ├── models.js               # Unified Track, MusicCollection, and UserProfile models
+│   │   ├── set-engine.js           # Pure set math & Venn partition calculator
+│   │   ├── graph-engine.js         # Backend ID-driven pipeline evaluator
+│   │   └── track-resolver.js       # Cross-platform resolution & caching engine
+│   ├── providers/
+│   │   ├── provider-interface.js   # Abstract MusicProvider interface
+│   │   ├── provider-registry.js    # Multi-service registry & switcher
+│   │   ├── spotify/                # Spotify PKCE Auth and Web API client
+│   │   └── ytmusic/                # YouTube Music PKCE Auth, API client & normalizer
+│   ├── components/                 # Custom Elements Web Components (<sso-*>)
+│   └── utils/                      # PKCE, SVG icons, and LocalStorage helpers
+├── test/                           # Automated unit test suite (node --test)
+├── cli.py                          # Python CLI script
+└── README.md
+```

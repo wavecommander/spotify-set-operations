@@ -1,0 +1,19 @@
+{
+  "name": "Music Set Operations",
+  "short_name": "SetOperations",
+  "description": "GUI for performing Venn diagram set operations on music playlists and albums",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#1db954",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "utilities"]
+}

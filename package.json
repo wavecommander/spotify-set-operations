@@ -1,0 +1,21 @@
+{
+  "name": "spotify-set-operations",
+  "version": "2.0.0",
+  "description": "Progressive Web App for performing graphical set operations on music playlists and albums",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve -l tcp://127.0.0.1:8888 .",
+    "serve": "python3 -m http.server 8888 --bind 127.0.0.1",
+    "test": "node --test test/**/*.test.js"
+  },
+  "keywords": [
+    "spotify",
+    "youtube-music",
+    "playlists",
+    "set-operations",
+    "pwa",
+    "web-components"
+  ],
+  "author": "",
+  "license": "GPL-3.0"
+}

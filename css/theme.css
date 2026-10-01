@@ -1,0 +1,53 @@
+/**
+ * Theme Design Tokens
+ * Modern dark-mode audio workstation aesthetic inspired by Spotify and Ableton.
+ */
+
+:root {
+  /* Colors */
+  --color-bg-base: #121212;
+  --color-bg-surface: #181818;
+  --color-bg-elevated: #242424;
+  --color-bg-highlight: #2a2a2a;
+  --color-bg-input: #333333;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b3b3b3;
+  --color-text-muted: #727272;
+
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-default: rgba(255, 255, 255, 0.15);
+  --color-border-hover: rgba(255, 255, 255, 0.3);
+
+  /* Operation Accents */
+  --color-spotify-green: #1db954;
+  --color-spotify-green-hover: #1ed760;
+
+  --color-op-union: #1db954;
+  --color-op-intersection: #3d91f4;
+  --color-op-difference: #f59e0b;
+  --color-op-symdiff: #b05dfa;
+
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-glow-green: 0 0 16px rgba(29, 185, 84, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
